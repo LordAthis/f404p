@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>404 - Nem található</title>
+    <style>
+        body { text-align: center; padding: 40px; font-family: Arial; }
+        img { max-width: 400px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>404 - Az oldal nem található!</h1>
+    <div id="image"></div>
+    <script>
+        const img = localStorage.getItem('f404p_img');
+        if (img) {
+            document.getElementById('image').innerHTML = `<img src="${img}" alt="Vicces 404 kép">`;
+        } else {
+            document.getElementById('image').innerHTML = '<p>Még nem választottál képet! Menj a setup.html oldalra.</p>';
+        }
+    </script>
+</body>
+</html>
