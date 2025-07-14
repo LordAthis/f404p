@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>404 Page Setup</title>
+    <style>
+        .thumb { width: 120px; margin: 10px; cursor: pointer; border: 2px solid #ccc; }
+        .selected { border-color: #009900; }
+    </style>
+</head>
+<body>
+    <h2>Válaszd ki a vicces 404 képet!</h2>
+    <div id="gallery"></div>
+    <button onclick="saveChoice()">Mentés</button>
+
+    <script>
+        const images = ['images/funny1.jpg', 'images/funny2.jpg', 'images/funny3.jpg'];
+        const gallery = document.getElementById('gallery');
+        let selected = null;
+
+        images.forEach((src, idx) => {
+            let img = document.createElement('img');
+            img.src = src;
+            img.className = 'thumb';
+            img.onclick = () => {
+                document.querySelectorAll('.thumb').forEach(e => e.classList.remove('selected'));
+                img.classList.add('selected');
+                selected = src;
+            };
+            gallery.appendChild(img);
+        });
+
+        function saveChoice() {
+            if (selected) {
+                localStorage.setItem('f404p_img', selected);
+                alert('A választásod mentve! Most már használhatod a 404 oldalt.');
+            } else {
+                alert('Válassz ki egy képet!');
+            }
+        }
+    </script>
+</body>
+</html>
