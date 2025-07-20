@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Elveszett a Marson</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #0a0a23 0%, #1a1a3a 30%, #2d1b3d 60%, #8b3a3a 100%);
+            font-family: 'Orbitron', monospace;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Animated stars */
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+        
+        .star:nth-child(odd) {
+            animation-delay: 1s;
+        }
+        
+        .star:nth-child(3n) {
+            animation-delay: 2s;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        
+        /* Mars in background */
+        .mars {
+            position: absolute;
+            right: 10%;
+            top: 15%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle at 30% 30%, #ff6b35, #d44820, #8b2635);
+            border-radius: 50%;
+            z-index: 2;
+            animation: float 6s ease-in-out infinite;
+            box-shadow: 0 0 50px rgba(255, 107, 53, 0.3);
+        }
+        
+        .mars::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M0 0h20v20H0V0zm10 0v20h10V0H10z'/%3E%3C/g%3E%3C/svg%3E");
+            border-radius: 50%;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        /* 404 title */
+        .error-code {
+            font-size: clamp(4rem, 15vw, 12rem);
+            font-weight: 900;
+            color: #ff6b35;
+            text-shadow: 
+                0 0 20px #ff6b35,
+                0 0 40px #ff6b35,
+                0 0 60px #ff6b35;
+            margin-bottom: 20px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 20px #ff6b35, 0 0 40px #ff6b35, 0 0 60px #ff6b35; }
+            to { text-shadow: 0 0 30px #ff6b35, 0 0 60px #ff6b35, 0 0 90px #ff6b35; }
+        }
+        
+        /* SpaceX rocket */
+        .rocket-container {
+            position: relative;
+            margin: 40px 0;
+            width: 100%;
+            height: 200px;
+        }
+        
+        .rocket {
+            position: absolute;
+            left: -100px;
+            top: 50%;
+            transform: translateY(-50%) rotate(15deg);
+            width: 80px;
+            height: 200px;
+            animation: flyBy 8s linear infinite;
+        }
+        
+        .rocket-body {
+            width: 20px;
+            height: 120px;
+            background: linear-gradient(to bottom, #f0f0f0, #c0c0c0);
+            margin: 0 auto;
+            border-radius: 10px 10px 0 0;
+            position: relative;
+            box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .rocket-tip {
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 30px solid #ff4444;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .rocket-fins {
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .fin {
+            width: 0;
+            height: 0;
+            border-top: 15px solid #888;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            position: absolute;
+        }
+        
+        .fin:nth-child(1) { left: -15px; }
+        .fin:nth-child(2) { right: -15px; }
+        
+        .rocket-flame {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 40px;
+            background: linear-gradient(to bottom, #ffff00, #ff4400, #ff0000);
+            clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+            animation: flicker 0.1s infinite;
+        }
+        
+        @keyframes flicker {
+            0%, 100% { opacity: 1; transform: translateX(-50%) scale(1); }
+            50% { opacity: 0.8; transform: translateX(-50%) scale(1.1); }
+        }
+        
+        @keyframes flyBy {
+            0% { left: -100px; }
+            100% { left: calc(100% + 100px); }
+        }
+        
+        /* Main message */
+        .message {
+            font-size: clamp(1.2rem, 4vw, 2.5rem);
+            color: #ffffff;
+            margin: 40px 0;
+            max-width: 800px;
+            line-height: 1.4;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Return button */
+        .return-section {
+            margin-top: 60px;
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+        
+        .return-text {
+            font-size: 1.5rem;
+            color: #ffffff;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .earth-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(45deg, #4a90e2, #357abd);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+        }
+        
+        .earth-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(74, 144, 226, 0.5);
+            background: linear-gradient(45deg, #5ba0f2, #4080cd);
+        }
+        
+        .earth-icon {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(45deg, #4a90e2, #2d8a57);
+            border-radius: 50%;
+            position: relative;
+            animation: spin 10s linear infinite;
+        }
+        
+        .earth-icon::before {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #2d8a57;
+            border-radius: 50%;
+            top: 8px;
+            left: 6px;
+        }
+        
+        .earth-icon::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 12px;
+            background: #2d8a57;
+            border-radius: 50%;
+            top: 15px;
+            right: 8px;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .mars {
+                width: 150px;
+                height: 150px;
+                right: 5%;
+                top: 10%;
+            }
+            
+            .rocket {
+                width: 60px;
+                height: 150px;
+            }
+            
+            .rocket-body {
+                width: 15px;
+                height: 90px;
+            }
+            
+            .message {
+                font-size: 1.5rem;
+                padding: 0 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated stars -->
+    <div class="stars"></div>
+    
+    <!-- Mars planet -->
+    <div class="mars"></div>
+    
+    <div class="container">
+        <div class="error-code">404</div>
+        
+        <div class="rocket-container">
+            <div class="rocket">
+                <div class="rocket-tip"></div>
+                <div class="rocket-body"></div>
+                <div class="rocket-fins">
+                    <div class="fin"></div>
+                    <div class="fin"></div>
+                </div>
+                <div class="rocket-flame"></div>
+            </div>
+        </div>
+        
+        <div class="message">
+            Ez az oldal eltűnt – valószínűleg Elon Musk vitte Marsra
+        </div>
+        
+        <div class="return-section">
+            <div class="return-text">Próbáld meg a Földön!</div>
+            <a href="/" class="earth-button">
+                <div class="earth-icon"></div>
+                Vissza a Földre
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Generate random stars
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            const starCount = 100;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                const size = Math.random() * 3 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Add some interactive effects
+        document.addEventListener('mousemove', (e) => {
+            const mars = document.querySelector('.mars');
+            const x = (e.clientX / window.innerWidth - 0.5) * 20;
+            const y = (e.clientY / window.innerHeight - 0.5) * 20;
+            mars.style.transform = `translate(${x}px, ${y}px)`;
+        });
+        
+        // Initialize
+        createStars();
+    </script>
+</body>
+</html>
