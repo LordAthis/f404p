@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - HTML-Anaconda</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Fira+Code:wght@300;400;500;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3a 30%, #2d1b3d 60%, #0a0a0a 100%);
+            font-family: 'JetBrains Mono', monospace;
+            overflow-x: hidden;
+            position: relative;
+            color: #00ff00;
+        }
+        
+        /* Background code matrix */
+        .code-matrix {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.1;
+            font-family: 'Fira Code', monospace;
+            font-size: 12px;
+            color: #00ff00;
+            overflow: hidden;
+        }
+        
+        .code-line {
+            position: absolute;
+            white-space: nowrap;
+            animation: code-scroll 15s linear infinite;
+        }
+        
+        @keyframes code-scroll {
+            0% { transform: translateX(100vw); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        /* 404 title */
+        .error-code {
+            font-family: 'Fira Code', monospace;
+            font-size: clamp(4rem, 15vw, 10rem);
+            font-weight: 700;
+            color: #ff4444;
+            text-shadow: 
+                0 0 10px #ff4444,
+                0 0 20px #ff4444,
+                0 0 40px #ff4444;
+            margin-bottom: 20px;
+            animation: error-glitch 3s ease-in-out infinite;
+            position: relative;
+        }
+        
+        .error-code::before {
+            content: '404';
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: #00ffff;
+            animation: error-glitch-cyan 3s ease-in-out infinite;
+            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+        }
+        
+        .error-code::after {
+            content: '404';
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: #ffff00;
+            animation: error-glitch-yellow 3s ease-in-out infinite;
+            clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+        }
+        
+        @keyframes error-glitch {
+            0%, 90%, 100% { transform: translate(0); }
+            92% { transform: translate(-2px, 1px); }
+            94% { transform: translate(1px, -1px); }
+            96% { transform: translate(-1px, 1px); }
+        }
+        
+        @keyframes error-glitch-cyan {
+            0%, 90%, 100% { transform: translate(0); }
+            92% { transform: translate(2px, -1px); }
+            94% { transform: translate(-1px, 1px); }
+            96% { transform: translate(1px, -1px); }
+        }
+        
+        @keyframes error-glitch-yellow {
+            0%, 90%, 100% { transform: translate(0); }
+            92% { transform: translate(-1px, 2px); }
+            94% { transform: translate(1px, -2px); }
+            96% { transform: translate(-2px, 1px); }
+        }
+        
+        /* Anaconda snake */
+        .anaconda-container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            height: 400px;
+            margin: 40px 0;
+        }
+        
+        .snake {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Snake segments */
+        .snake-segment {
+            position: absolute;
+            background: linear-gradient(45deg, #2d5016, #4a7c59, #2d5016);
+            border: 2px solid #00ff00;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: #00ff00;
+            font-weight: 500;
+            text-shadow: 0 0 5px #00ff00;
+            animation: snake-pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes snake-pulse {
+            0%, 100% { box-shadow: 0 0 10px #00ff00; }
+            50% { box-shadow: 0 0 20px #00ff00, 0 0 30px #00ff00; }
+        }
+        
+        /* Snake head */
+        .snake-head {
+            width: 120px;
+            height: 80px;
+            top: 50%;
+            right: 10%;
+            transform: translateY(-50%) rotate(-15deg);
+            background: linear-gradient(45deg, #4a7c59, #6ba468, #4a7c59);
+            border-radius: 60px 30px 30px 60px;
+            position: relative;
+            z-index: 15;
+        }
+        
+        .snake-head::before {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #ff4444;
+            border-radius: 50%;
+            top: 20px;
+            right: 25px;
+            box-shadow: 0 0 10px #ff4444;
+        }
+        
+        .snake-head::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 3px;
+            background: #ff4444;
+            top: 45px;
+            right: 15px;
+            border-radius: 2px;
+        }
+        
+        /* Snake body segments with code */
+        .segment-1 {
+            width: 100px;
+            height: 60px;
+            top: 45%;
+            right: 20%;
+            transform: translateY(-50%) rotate(-10deg);
+            z-index: 14;
+        }
+        
+        .segment-2 {
+            width: 110px;
+            height: 65px;
+            top: 40%;
+            right: 35%;
+            transform: translateY(-50%) rotate(-5deg);
+            z-index: 13;
+        }
+        
+        .segment-3 {
+            width: 120px;
+            height: 70px;
+            top: 35%;
+            right: 50%;
+            transform: translateY(-50%) rotate(0deg);
+            z-index: 12;
+        }
+        
+        .segment-4 {
+            width: 115px;
+            height: 68px;
+            top: 45%;
+            right: 65%;
+            transform: translateY(-50%) rotate(5deg);
+            z-index: 11;
+        }
+        
+        .segment-5 {
+            width: 105px;
+            height: 62px;
+            top: 55%;
+            right: 78%;
+            transform: translateY(-50%) rotate(10deg);
+            z-index: 10;
+        }
+        
+        .segment-6 {
+            width: 95px;
+            height: 58px;
+            top: 65%;
+            right: 88%;
+            transform: translateY(-50%) rotate(15deg);
+            z-index: 9;
+        }
+        
+        /* Message being eaten */
+        .eaten-message {
+            position: absolute;
+            top: 50%;
+            right: 5%;
+            transform: translateY(-50%) rotate(-15deg);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(1rem, 3vw, 1.8rem);
+            color: #ffff00;
+            font-weight: 600;
+            z-index: 20;
+            animation: being-eaten 4s ease-in-out infinite;
+            text-shadow: 0 0 10px #ffff00;
+        }
+        
+        @keyframes being-eaten {
+            0%, 70% { 
+                opacity: 1; 
+                transform: translateY(-50%) rotate(-15deg) translateX(0);
+            }
+            85% { 
+                opacity: 0.7; 
+                transform: translateY(-50%) rotate(-15deg) translateX(-20px);
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(-50%) rotate(-15deg) translateX(0);
+            }
+        }
+        
+        /* Main message */
+        .main-message {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            color: #ffffff;
+            margin: 60px 0 40px 0;
+            max-width: 800px;
+            line-height: 1.4;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            animation: text-glow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes text-glow {
+            from { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 10px #ffffff; }
+            to { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 20px #ffffff, 0 0 30px #ffffff; }
+        }
+        
+        /* Save button */
+        .save-section {
+            margin-top: 60px;
+            animation: fade-in-up 1s ease-out 1s both;
+        }
+        
+        .save-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(45deg, #1a1a3a, #2d1b3d);
+            color: #00ff00;
+            padding: 18px 35px;
+            border: 2px solid #00ff00;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .save-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 0, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .save-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 8px 25px rgba(0, 255, 0, 0.3),
+                inset 0 0 20px rgba(0, 255, 0, 0.1);
+            color: #ffffff;
+            text-shadow: 0 0 10px #00ff00;
+        }
+        
+        .save-button:hover::before {
+            left: 100%;
+        }
+        
+        .save-icon {
+            font-size: 1.4rem;
+        }
+        
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Terminal cursor */
+        .cursor {
+            display: inline-block;
+            background: #00ff00;
+            width: 3px;
+            height: 1.2em;
+            animation: cursor-blink 1s infinite;
+            margin-left: 5px;
+        }
+        
+        @keyframes cursor-blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .anaconda-container {
+                height: 300px;
+            }
+            
+            .snake-segment {
+                font-size: 0.7rem;
+            }
+            
+            .snake-head {
+                width: 80px;
+                height: 60px;
+            }
+            
+            .segment-1, .segment-2, .segment-3, .segment-4, .segment-5, .segment-6 {
+                width: 70px;
+                height: 45px;
+            }
+            
+            .eaten-message {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background code matrix -->
+    <div class="code-matrix"></div>
+    
+    <div class="container">
+        <div class="error-code">404</div>
+        
+        <div class="anaconda-container">
+            <div class="snake">
+                <!-- Snake head -->
+                <div class="snake-segment snake-head"></div>
+                
+                <!-- Snake body segments with HTML/CSS tags -->
+                <div class="snake-segment segment-1">&lt;html&gt;</div>
+                <div class="snake-segment segment-2">&lt;head&gt;</div>
+                <div class="snake-segment segment-3">&lt;body&gt;</div>
+                <div class="snake-segment segment-4">&lt;div&gt;</div>
+                <div class="snake-segment segment-5">&lt;/div&gt;</div>
+                <div class="snake-segment segment-6">&lt;/body&gt;</div>
+                
+                <!-- Message being eaten -->
+                <div class="eaten-message">404 ERROR<span class="cursor"></span></div>
+            </div>
+        </div>
+        
+        <div class="main-message">
+            Az oldalt megette a HTML-anaconda
+        </div>
+        
+        <div class="save-section">
+            <a href="/" class="save-button">
+                <span class="save-icon">💾</span>
+                Mentsd Ctrl+S-el!
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Generate background code matrix
+        function createCodeMatrix() {
+            const matrix = document.querySelector('.code-matrix');
+            const codeSnippets = [
+                'function anaconda() { return 404; }',
+                'const error = "Page not found";',
+                'if (page === null) { throw new Error(); }',
+                '<html><head><title>404</title></head>',
+                'body { background: #000; color: #0f0; }',
+                'def python_anaconda(): pass',
+                'import sys; sys.exit(404)',
+                'console.log("Where is my page?");',
+                '<?php echo "404 Not Found"; ?>',
+                'SELECT * FROM pages WHERE id = 404;',
+                'git commit -m "Fix broken links"',
+                'npm install --save page-finder',
+                'docker run --rm page-recovery',
+                'while (true) { search_page(); }',
+                'try { findPage(); } catch (e) {}',
+                'const snake = new Anaconda("hungry");'
+            ];
+            
+            for (let i = 0; i < 20; i++) {
+                const line = document.createElement('div');
+                line.className = 'code-line';
+                line.textContent = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+                line.style.top = Math.random() * 100 + '%';
+                line.style.animationDelay = Math.random() * 15 + 's';
+                line.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                line.style.opacity = Math.random() * 0.3 + 0.1;
+                matrix.appendChild(line);
+            }
+        }
+        
+        // Add interactive snake segments
+        document.querySelectorAll('.snake-segment').forEach((segment, index) => {
+            segment.addEventListener('click', () => {
+                segment.style.animation = 'none';
+                segment.offsetHeight; // Trigger reflow
+                segment.style.animation = 'snake-pulse 0.3s ease-in-out, snake-pulse 2s ease-in-out 0.3s infinite';
+                
+                // Add code popup
+                if (segment.textContent && segment.textContent.includes('<')) {
+                    const popup = document.createElement('div');
+                    popup.textContent = 'Executing: ' + segment.textContent;
+                    popup.style.cssText = `
+                        position: absolute;
+                        top: -40px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        background: rgba(0, 0, 0, 0.9);
+                        color: #00ff00;
+                        padding: 5px 10px;
+                        border: 1px solid #00ff00;
+                        border-radius: 4px;
+                        font-size: 0.8rem;
+                        white-space: nowrap;
+                        pointer-events: none;
+                        animation: code-popup 2s ease-out forwards;
+                        z-index: 100;
+                    `;
+                    
+                    const style = document.createElement('style');
+                    style.textContent = `
+                        @keyframes code-popup {
+                            0% { opacity: 1; transform: translateX(-50%) translateY(0); }
+                            100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+                        }
+                    `;
+                    document.head.appendChild(style);
+                    
+                    segment.appendChild(popup);
+                    setTimeout(() => {
+                        popup.remove();
+                        style.remove();
+                    }, 2000);
+                }
+            });
+        });
+        
+        // Keyboard shortcut easter egg
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                const button = document.querySelector('.save-button');
+                button.style.transform = 'translateY(-3px) scale(1.1)';
+                button.style.boxShadow = '0 8px 25px rgba(0, 255, 0, 0.5)';
+                
+                setTimeout(() => {
+                    button.style.transform = '';
+                    button.style.boxShadow = '';
+                    alert('Saved! 💾 (Just kidding, this is a 404 page 😄)');
+                }, 200);
+            }
+        });
+        
+        // Initialize
+        createCodeMatrix();
+        
+        // Add some random code generation
+        setInterval(() => {
+            const matrix = document.querySelector('.code-matrix');
+            if (matrix.children.length < 25) {
+                const newLine = document.createElement('div');
+                newLine.className = 'code-line';
+                newLine.textContent = 'Error 404: Page consumed by anaconda';
+                newLine.style.top = Math.random() * 100 + '%';
+                newLine.style.animationDuration = '12s';
+                newLine.style.opacity = '0.2';
+                matrix.appendChild(newLine);
+                
+                setTimeout(() => newLine.remove(), 12000);
+            }
+        }, 3000);
+    </script>
+</body>
+</html>
