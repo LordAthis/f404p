@@ -4,8 +4,8 @@
 
 ## Telepítés
 
-1. Másold a `setup.html`, `404.html` és az `images` mappát a saját oldalad gyökérkönyvtárába.
-2. Nyisd meg a `setup.html`-t a böngészőben, válassz ki egy képet.
+1. Másold a `f404p_setup.html`, `404.html` és az `images` mappát a saját oldalad gyökérkönyvtárába.
+2. Nyisd meg az `f404p_setup.html`-t a böngészőben, válassz ki egy képet.
 3. Állítsd be a webszerveredet, hogy a 404 hibák esetén a `404.html`-t jelenítse meg.
    - Pl. Apache esetén `.htaccess`:
      ```
@@ -15,7 +15,7 @@
 
 ## Új képek hozzáadása
 
-Tegyél új képeket az `images` mappába, frissítsd a `setup.html` scriptjében az `images` tömböt!
+Tegyél új képeket az `images` mappába, frissítsd a `f404p_setup.html` scriptjében az `images` tömböt!
 
 ---
 
