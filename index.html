@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fejlesztés alatt</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #3b4b9c, #5e2f7a); /* Darker gradient */
+            font-family: Arial, sans-serif;
+            color: #e0e0e0; /* Slightly dimmer text color */
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Slightly darker shadow */
+        }
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .loader {
+            border: 5px solid #b0b0b0; /* Darker border */
+            border-top: 5px solid #2c6b9b; /* Darker spinner color */
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fejlesztés alatt!</h1>
+        <p>Az oldalunk még készül, de hamarosan eljön a pillanat, amikor használatba veheted! Köszönjük a türelmedet, dolgozunk rajta, hogy minél előbb találkozhassunk!</p>
+        <div class="loader"></div>
+    </div>
+</body>
+</html>
